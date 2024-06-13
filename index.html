@@ -121,9 +121,9 @@
                     sumNightUnitPrice += item.nightResult
                 }
             })
-            let nightPrice = $("#nightPrice").val() - sumNightUnitPrice;
+            let nightPrice = ($("#nightPrice").val() * 0.97) - sumNightUnitPrice;
             let nightUnit = nightPrice / sumNightOutput
-            let earlyUnit = $("#earlyPrice").val() / sumEarlyOutput
+            let earlyUnit = ($("#earlyPrice").val() * 0.97) / sumEarlyOutput
             saveList.forEach(item => {
                 item.earlyResult = (earlyUnit * item.earlyOutput)
                 item.nightResult = item.nightResult || (nightUnit * item.nightOutput)
