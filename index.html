@@ -28,12 +28,12 @@
                 <div class="form-group">
                     <label for="earlyPrice">小费总金额（早班）</label>
                     <input type="text" name="earlyPrice" id="earlyPrice" class="form-control" required
-                        placeholder="请输入Toast小费早班金额">
+                        placeholder="请输入Toast小费总金额">
                 </div>
                 <div class="form-group">
                     <label for="nightPrice">小费总金额（晚班）</label>
                     <input type="text" name="nightPrice" id="nightPrice" class="form-control" required
-                        placeholder="请输入Toast小费晚班金额">
+                        placeholder="请输入Toast小费总金额">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success btn-block">保存</button>
@@ -69,8 +69,13 @@
                 </div>
             </form>
         </div>
-        <div style="padding:10px 0">
+        <div style="display: flex; align-items: center; padding: 10px 0;">
             <button type="button" class="btn btn-danger" onclick="clearStorage()">清空数据</button>
+            <div style="display: flex; align-items: center; margin-left: 10px;">
+                <label for="price" style="margin-right: 5px;">总小费扣3%手续费</label>
+                <input type="text" name="totalTip" id="totalTip" class="form-control" required
+                placeholder="总小费">
+            </div>
         </div>
         <table class="table table-bordered">
             <thead>
@@ -137,8 +142,16 @@
             const nightPrice = $("#nightPrice").val()
             localStorage.setItem('earlyPrice', earlyPrice)
             localStorage.setItem('nightPrice', nightPrice)
+            updateTotalTip();
             return false;
         })
+
+        const updateTotalTip = () => {
+            const earlyPrice = parseFloat($("#earlyPrice").val()) || 0;
+            const nightPrice = parseFloat($("#nightPrice").val()) || 0;
+            const totalTip = (earlyPrice + nightPrice) * 0.97;
+            $("#totalTip").val(totalTip.toFixed(2));
+        }
 
 
 
@@ -175,6 +188,7 @@
             $("#price").val(localStorage.getItem('all-price') || 0)
             $("#earlyPrice").val(localStorage.getItem('earlyPrice') || 0)
             $("#nightPrice").val(localStorage.getItem('nightPrice') || 0)
+            updateTotalTip();
             renderTable();
         })
     </script>
